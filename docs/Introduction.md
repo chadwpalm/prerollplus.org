@@ -91,6 +91,6 @@ In this scenario, a random preroll from Bucket 1 will be played, and then a rand
 
 ### Getting Started
 
-- [Installation](category/Installation)
-- [Configuration](category/Configuration)
-- [Reference](category/Reference)
+- [Installation](/docs/Installation)
+- [Configuration](/docs/Configuration)
+- [Reference](/docs/Reference)

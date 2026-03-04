@@ -4,7 +4,7 @@ description: Instructions for setting up buckets
 sidebar_position: 4
 ---
 
-A **Bucket** in Preroll Plus is a container that holds a list of preroll media files. A bucket is equivalent to the semi-colon delimited list of prerolls in Plex. A file is chosen at random from the list and played at its location in the sequence (see next section on [Sequences](/docs/Guide/Sequences)). A bucket can contain a single file, which will always be played in that sequence location, or multiple files from which one will be picked at random.
+A **Bucket** in Preroll Plus is a container that holds a list of preroll media files. A bucket is equivalent to the semi-colon delimited list of prerolls in Plex. A file is chosen at random from the list and played at its location in the sequence (see next section on [Sequences](/docs/Configuration/Sequences)). A bucket can contain a single file, which will always be played in that sequence location, or multiple files from which one will be picked at random.
 
 Bucket cards can be visually sorted by bucket name. This does not affect their usage in sequences.
 
@@ -36,7 +36,7 @@ Any time you add or delete a file from your file system you will need to manuall
 :::note
 Preroll Plus monitors for file/directory changes in realtime. If files are added or deleted in the file system it should reflect in the files window immediately. When a file is deleted in the files system, Preroll Plus will check if that file is located inside of any buckets (Manual mode only) and remove them. If you re-add those files to the file system you will need to re-add them to the buckets.
 
-File system monitoring may not working properly if the file system is an SMB share (or similar). See [File Monitor Polling](/docs/Guide/Settings#file-monitor-polling-advanced-setting) for a solution.
+File system monitoring may not working properly if the file system is an SMB share (or similar). See [File Monitor Polling](/docs/Configuration/Settings#file-monitor-polling-advanced-setting) for a solution.
 :::
 
 :::tip
