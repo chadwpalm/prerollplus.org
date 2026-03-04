@@ -1,0 +1,87 @@
+---
+title: Sequences
+description: Instructions for setting up sequences
+sidebar_position: 5
+---
+
+A **Sequence** in Preroll Plus is a container that holds a list of buckets (see [Buckets](/docs/Guide/Buckets)). A sequence of buckets is played in the order the sequence is created (top down). Each bucket will play a random preroll contained within it then move on to the next bucket.
+
+Sequence cards can be visually sorted based on priority number or by sequence name. This does not affect priorities or schedules.
+
+Sequences can be edited or deleted by clicking the pen icon or X icon in the sequence card respectively (when not currently creating or editing a sequence).
+
+## Sequence Creation
+
+To create a new sequence, click the sequence creation card with a plus sign in the middle. This will open a new dialogue section where you can start adding buckets from the list of buckets.
+
+### Name of Sequence
+
+You must give the sequence a name. Ideally you'll want to use a unique name although all sequences will have a unique UUID.
+
+### Sequence Priority
+
+Here you can assign a sequence priority. Priority determines which sequence is used when multiple sequences are scheduled for the same day. Higher priority numbers take precedence.
+
+:::note
+Lower numbers are a higher priority with 1 being the highest and 100 being the lowest. No two sequences can share the same priority.
+:::
+
+### Schedule
+
+There are four options for how to schedule a sequence:
+
+#### No (Schedule)
+
+This will set the sequence to be a candidate for use any day of the year depending on priority. Typically you would set this as the lowest priority and use it as a fallback for when higher priority sequences aren't scheduled for that day.
+
+:::tip
+There is no rule that says there can only be one sequence with no schedule, however if there is more than one, only the one with the highest priority will be used. This can be useful if you want one or more to be a placeholder where you can easily swap priorities between them to make one of them dominant.
+:::
+
+#### Custom
+
+You can choose to schedule a sequence to only occur between a start day and end day inclusively. If the current date falls between the start and end dates then that sequence will be a candidate for use depending on priority.
+
+:::tip
+Set the start and end dates as the same to cover a singular day.
+:::
+
+#### Day of Week
+
+This scheduling option allows you to schedule sequences based on the days of the week. There is no limit to the combination you wish to use but at least one day must be selected.
+
+#### Holiday
+
+This option lets you set a specific holiday to use for your sequence schedule. This supports dynamic holidays that change dates from year to year. There are two sources you can use:
+
+a. **Legacy** (Nager.Date): This is a completely free API and does not require a login or API key to use. The drawback is that it only supports public/federal holidays, so holidays like Valentine's Day or Mother's Day cannot be used.
+
+b. **Premier** (Calendarific): This calendar API option (introduced in v1.2.0) has a larger database of holidays to choose from (100s of holidays across over 200 countries). This API does require an account in order to obtain an API key (placed in [Settings](/docs/Guide/Settings)). The free tier for this API allows up to 500 API calls per month. Preroll Plus caches calendars locally to reduce API calls to the website, so it is unlikely you will need to upgrade to a paid tier. See the [Holidays](/docs/Guide/Settings#holidays) section of the settings page for more information.
+
+**Country**: Select the country you wish to browse holidays from.
+
+**Type** (Premier only): This option chooses different types of holidays based on how Calendarific categorizes them.
+
+**Holiday**: Choose a holiday from this list that you wish to use for that sequence. The list can be sorted by name or by date (both by ascending order).
+
+:::note
+When using the "Local" holiday type you will see localized names to the right of the dates. There may be multiple entries for the same holiday, so select the option that best fits your location's observance date.
+:::
+
+**Days Before/After**: Choose how many days before or after the holiday if you want to spread the schedule out from the actual holiday date.
+
+:::info
+There is only one rule when using schedules:
+
+1. Two schedules cannot have the same priority. Since only one sequence can be chosen at a time, it does not make sense for two sequences to share a priority. The sequence selection algorithm would not know which one to choose.
+
+The previous rules that said two schedules or no-schedule sequences cannot overlap are now obsolete. Priority numbers will determine which sequence is chosen. For example, you may have a sequence scheduled for the entire month of February, but also have a holiday set for Valentine's Day (February 14th). If your holiday is given a priority of 1 and your month-long schedule a priority of 2, then when February 14th arrives it will choose the Valentine's bucket over the monthly one.
+:::
+
+### Adding Buckets to Sequence
+
+To add a bucket to the sequence, click on a bucket to highlight it and press the left arrow to add it to the sequence. You can also remove buckets from the sequence or reorder a bucket in the sequence using the buttons above the sequence list.
+
+:::tip
+You can add the same bucket multiple times in a sequence. Preroll Plus is programmed to not play the same preroll twice.
+:::

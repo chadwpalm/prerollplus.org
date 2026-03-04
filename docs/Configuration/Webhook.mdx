@@ -1,0 +1,41 @@
+---
+title: Webhook
+description: Instructions for setting up webhook
+sidebar_position: 2
+---
+
+## Configuring
+
+Preroll Plus is dependent on the use of webhooks coming from a Plex Media Server to function.
+
+:::note
+
+Currently, the use of webhooks requires a Plex Pass
+
+:::
+
+You must be a Plex Media Server admin to access the webhooks setting on the server. From you Plex settings under your account name, select the **Webhooks** menu item to open up the webhooks page. Click the **Add Webhook** button. You will be prompted to enter a URL. The format for the URL is as follows:
+
+```
+http://<ip_address>:<port>/webhook
+```
+
+The IP address will be the address where Preroll Plus is running. The port number will depend on how the application was installed and started up. (See [Installation](/docs/category/installation))
+
+:::info Important
+It is also important that the URL has `/webhook` included as that is the landing URL where webhooks are processed within Preroll Plus.
+:::
+
+Once changes are saved all webhooks will be sent to Preroll Plus and will start processing preroll updates.
+
+## Troubleshooting
+
+If webhooks are set up but are still not working for you, you will need to active webhooks from your server settings.
+
+- In Settings --> Network (Show Advanced must be active) make sure Webhooks is checked. This allows webhooks to go to external services.
+
+## Webhooks to Nowhere
+
+Plex delivers webhooks synchronously: it waits for a response before sending the next one. If you configure a webhook URL that doesn’t return a response (for example, a mistyped address or a service that is offline), the server will pause further webhooks for a while while it retries.
+
+This can cause noticeable delays in your clients’ playback or other actions. To avoid the problem, make sure every URL listed in your Plex webhooks settings points to a working endpoint and delete any URLs you no longer use.

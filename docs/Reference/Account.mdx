@@ -1,0 +1,51 @@
+---
+title: Account Menu
+description: Information on app
+sidebar_position: 3
+---
+
+At the very far right of the menu bar is a pull-down menu represented by your Plex account thumbnail image.
+
+### Plex Account Information
+
+The top of the menu will show your Plex username and email address based on the Plex account that is logged into Preroll Plus.
+
+### Documentation
+
+A link that points you to this documentation.
+
+### About
+
+This brings up a pop-up that shows information about the Preroll Plus instance.
+
+#### Version
+
+The currently running Preroll Plus version in X.X.X format (Major.Minor.Patch versions).
+
+#### Branch
+
+The GiHub branch that this instance is built from. Either Main or Dev. If running in Docker, the `latest` tag is built from the GitHub `main` branch and `develop` tag is built from the GitHub `develop` branch.
+
+#### Build
+
+If running a Docker container this is the Docker build number to help distinguish builds. If running natively it will say `Native`.
+
+#### Config Dir
+
+This is the location of the Preroll Plus config directory. On initial startup Preroll Plus will create this directory and place all settings, logs, and cache files there. When running a Docker container, this is the directory within the container Preroll Plus looks for the config files, so you will need to mount your config directory accordingly (see [Docker](/docs/Installation/Docker) setup).
+
+:::note
+This is a hardcoded location and cannot be changed.
+:::
+
+#### App Dir
+
+This is the directory that Preroll Plus was started in. For Docker it will alway say `/app`.
+
+#### Docker
+
+Link to the Docker Hub repository Preroll Plus can be pulled from.
+
+#### Source
+
+Link to the Preroll Plus source code.

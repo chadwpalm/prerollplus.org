@@ -1,0 +1,56 @@
+---
+title: Buckets
+description: Instructions for setting up buckets
+sidebar_position: 4
+---
+
+A **Bucket** in Preroll Plus is a container that holds a list of preroll media files. A bucket is equivalent to the semi-colon delimited list of prerolls in Plex. A file is chosen at random from the list and played at its location in the sequence (see next section on [Sequences](/docs/Guide/Sequences)). A bucket can contain a single file, which will always be played in that sequence location, or multiple files from which one will be picked at random.
+
+Bucket cards can be visually sorted by bucket name. This does not affect their usage in sequences.
+
+Buckets can be edited or deleted by clicking the pen icon or X icon in the bucket card respectively (when not currently creating or editing a bucket).
+
+
+## Bucket creation
+
+To create a new bucket, click the bucket creation card with a plus sign in the middle. This will open a new dialogue section where you can start adding media from the host into the bucket.
+
+You must give the bucket a name. Ideally you'll want to use a unique name although all buckets will have a unique UUID.
+
+There are two ways to add files to a bucket:
+
+### Manual
+
+Files can be added by clicking on them (multiple can be selected) and clicking the left-arrow between the boxes to add them to the bucket. They can be removed using the "Remove" button above the "Files in bucket" box. You can add the same file multiple times to add "weight" to it, which increases the likelihood that file will be selected. The percentage indicator shows the likelihood of use.
+
+You can also preview the prerolls by selecting one or more prerolls and clicking "Preview". If more than one is selected it will play them one by one.
+
+:::info Pros
+Using the Manual option, you can add weights to files to make them appear more frequently, and you can mix and match files from different directories.
+:::
+
+:::warning Cons
+Any time you add or delete a file from your file system you will need to manually add or delete them from a bucket.
+:::
+
+:::note
+Preroll Plus monitors for file/directory changes in realtime. If files are added or deleted in the file system it should reflect in the files window immediately. When a file is deleted in the files system, Preroll Plus will check if that file is located inside of any buckets (Manual mode only) and remove them. If you re-add those files to the file system you will need to re-add them to the buckets.
+
+File system monitoring may not working properly if the file system is an SMB share (or similar). See [File Monitor Polling](/docs/Guide/Settings#file-monitor-polling-advanced-setting) for a solution.
+:::
+
+:::tip
+If you always want the same preroll to play somewhere in your sequence, create a bucket with that one preroll file in it.
+:::
+
+### Directory
+
+You can select an entire directory to be used as a source for your bucket. Click "Include Subdirectories" to also use files contained in the location's subdirectories.
+
+:::info Pros
+Use this option if you plan to frequently add or remove files from a directory on the file system. You won't need to manually update the bucket each time.
+:::
+
+:::warning Cons
+When using the Directory option, you cannot mix files from multiple directories (though you can include subdirectories), and you cannot add weights to files.
+:::

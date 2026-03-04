@@ -1,0 +1,194 @@
+---
+title: Settings
+description: Instructions for Settings page
+sidebar_position: 3
+---
+
+After logging in you will be directed to the settings page. This is where all settings are set before Preroll Plus can work properly.
+
+:::note
+To see the Advanced settings click the Show Advanced button on the top right of the settings page.
+:::
+
+## Plex Server
+
+To get a list of available Plex server locations, click the circle-arrows on the right size of the Server pulldown bar. Once complete, you can use the pulldown bar to select the Plex server you wish to use.
+
+:::note
+
+The IP Address, Port, and Use SSL checkbox will automatically populate based on the server selection. It is recommended not to change these settings.
+
+- If you select a [remote] server address, the port will fill in to what you set as the public port in your Plex server settings (Settings -> Remote Access).
+- If you select a [secure] server address, "Use SSL" will automatically check to comply with the https secure protocol.
+
+:::
+
+There are typically four options for each server:
+
+1. Insecure Local IP/Port
+2. Secure Local IP/Port
+3. Insecure Remote IP/Port
+4. Secure Remote IP/Port
+
+Whether you want your connection to be secure or not is up to you. The secure options will encrypt packets sent to your Plex server from Preroll Plus. The only information Preroll Plus ever sends to your Plex server is the completed preroll string.
+
+:::tip
+You can also manually enter IP/Port/SSL information as well if you are familiar with what they are supposed to be, but most of the time you'll be able to use one of the pre-loaded options.
+:::
+
+## Preroll Media
+
+### Location of preroll media
+
+This is the root location of your Plex preroll media files relative to where the Preroll Plus application sees them. This option is only editable when running the application natively. Relative and absolute path rules apply.
+
+When running in Docker, Preroll Plus will look for media in the `/prerolls` directory inside the the container. The option in the settings will be grayed out and non-editable so you will need to mount the container's `/prerolls` directory to the directory of your choosing on your host system. (See [Docker installation](/docs/Installation/Docker))
+
+When creating buckets, this is the directory that Preroll Plus will look for preroll media, so make sure the **root** location of your media matches this location.
+
+### Plex location of preroll media
+
+This is the location of your Plex prerolls relative to how the Plex Media Server sees them. In other words, this is the path that will be in front of the preroll file names when generating the string.
+
+### Example
+
+`/prerolls` is the location set in "Location of preroll media" as shown:
+
+```bash
+prerolls/
+├── ComingSoon
+│   └── ComingSoon.mp4
+├── Holidays
+│   ├── Christmas
+│   │   ├── Christmas_Preroll_.mp4
+│   ├── Easter
+│   │   └── Easter_Preroll.mp4
+│   └── NewYears
+│       └── New_Year_Preroll.mp4
+└── Standard
+    ├── Bumpers
+    │   └── Bumper Pre-roll.mp4
+    └── Logo
+        ├── Logo1.mp4
+        └── Logo2.mp4
+```
+
+Preroll Plus will see `Logo1.mp4` as `/prerolls/Standard/Logo/Logo1.mp4`.
+
+However, Plex sees your prerolls at the location `/volume1/Plex_Media/Prerolls` as shown:
+
+```bash
+volume1/
+└── Plex_Media
+    └── Prerolls
+        ├── ComingSoon
+        │   └── ComingSoon.mp4
+        ├── Holidays
+        │   ├── Christmas
+        │   │   ├── Christmas_Preroll_.mp4
+        │   ├── Easter
+        │   │   └── Easter_Preroll.mp4
+        │   └── NewYears
+        │       └── New_Year_Preroll.mp4
+        └── Standard
+            ├── Bumpers
+            │   └── Bumper Pre-roll.mp4
+            └── Logo
+                ├── Logo1.mp4
+                └── Logo2.mp4
+```
+
+Since `/prerolls` and `/volume1/Plex_Media/Prerolls` are matching roots for your set of preroll files in each location tree respectively, the location you would put in "Plex location of preroll media" is `/volume1/Plex_Media/Prerolls`/
+
+:::note
+You will not be able to start configuring Buckets or Sequences until the Settings page is completed and saved.
+:::
+
+### File Monitor Polling (Advanced Setting)
+
+This setting changes backend file monitoring from using "inotify" to a polling method.
+
+If you are connecting to your prerolls directory using an SMB (or similar) share, it is more than likely that the file system's ability to be notified of file changes will not work.
+
+If you are finding that renaming, moving, or removing files in your preroll directory isn't automatically working, set this to "On" and Preroll Plus will monitor file changes using a constant polling of the file system.
+
+:::note
+If everything is already working correctly, it is recommended to keep this setting off.
+:::
+
+## Holidays
+
+### Calendarific API Key
+
+If you plan to use Calendarific as your holiday calendar source, this is where you will enter your API key.
+
+:::info
+You can find your API key on your Calendarific account dashboard toward the bottom of the page. You can obtain your API key at [https://calendarific.com](https://calendarific.com). The free tier allows up to 500 API calls per month. Preroll Plus caches calendars locally to reduce API calls to the website, so it is unlikely you will ever need to upgrade to a paid tier.
+
+File are cached in the `/config/cache` directory. Files are structured as `[Country-Code]-calendarific-[Type]-[Year]`. "Type" is the type of calendar used, being either National, Local, Religious, or Observance. These are chosen when creating [Sequences](/docs/Guide/Sequences).
+:::
+
+:::note
+If you do not wish to use Calendarific as your holiday calendar source, there is an option to use Nager.Date as your source. You do not need to sign up for that since there is no API key needed, just select "Legacy (Nager.Date)" when setting up your [Sequences](/docs/Guide/Sequences).
+:::
+
+### Clear Calendarific Cache (Advanced)
+
+Clicking this will remove all Calendarific files from the `/config/cache` directory. Any operation that requires calendar data will grab it from Calendarific and re-save it as cache. The only time you would need to do this is if your cache has been corrupted or you feel the cache is out of date.
+
+### Calendar Day of Week Start
+
+Choose which day of the week you wish the [Calendar](/docs/Guide/Calendar) to start with.
+
+## Logging (Advanced)
+
+### Log Level
+
+Set the log level to Info or Debug.
+
+:::tip
+If you are having issues with the app, first turn on Debug logging and see if the additional output helps pinpoint the problem before creating a ticket on GitHub or Discord.
+:::
+
+### Log Size Limit
+
+Maximum log file size in MB before archiving and starting a new file. Default is `1MB`.
+
+### Max Files
+
+Maximum number of log files to keep in rotation. Default is `5`.
+
+## Host
+
+### Port Number
+
+Set the port number you wish Preroll Plus to use. The default will be `4949`. If left blank it will also default to `4949`.
+
+:::note
+If running in a Docker container this will be the port as seen <i>inside</i> the container. If APP_PORT is used as an ENV variable, it will override this port setting. The order of Preroll Plus choosing the port is:
+
+1. ENV variable. If using Docker this will be added at container creation (See [Docker](/docs/Installation/Docker) page).
+2. If no ENV variable it will use this setting configured here in the settings page.
+3. If no ENV variable and this setting is left blank it will default to port `4949`.
+
+:::
+
+:::warning Important
+You will need to restart Preroll Plus for port changes to take effect.
+:::
+
+### URL Base
+
+If you wish to change the URL base used for use with a reverse proxy, you can enter that base here.
+
+:::note
+Note: If using a reverse proxy (example: mydomain.com/prerollplus) you would enter '/prerollplus' for URL Base.
+:::
+
+:::warning Important
+You will need to restart Preroll Plus for URL Base changes to take effect.
+:::
+
+### Clear Calendar Cache (Advanced Setting)
+
+Click "Clear Calendar Cache" to delete all of the calendar cache files and Preroll Plus will re-pull the needed calendar and cache it on the next API call. A new calendar will be automatically pulled after the new year, so you won't need to worry about the upcoming year's dates on holidays with dates that change each year.

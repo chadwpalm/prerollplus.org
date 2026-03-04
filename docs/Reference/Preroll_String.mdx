@@ -1,0 +1,28 @@
+---
+title: The Preroll String
+description: Information on the preroll string
+sidebar_position: 1
+---
+
+Sequences are turned into preroll strings (a text-based list) that are automatically added to your Plex server settings (Settings -> Extras -> Movie pre-roll video) from Preroll Plus's backend server. The update to the preroll string occurs in one of four occasions:
+
+1. When a movie is started after prerolls finish. More specifically, when the actual movie file starts playing, not when you press play to watch a movie before the trailers/prerolls start playing.
+
+2. Whenever you create/edit a Sequence or Bucket and save it. This is because your edits can affect which prerolls play.
+
+3. Whenever you click Save on the settings page regardless of if you actually changed any settings or not.
+
+   :::tip
+   This is a good way to test the changing of the prerolls in Plex.
+   :::
+
+4. Every day at midnight so that day's sequence is ready to go.
+
+   :::note
+   This can be changed using the environment variable `SCHEDULE_TIME`. (See [Docker Parameters](/docs/Installation/Docker#parameters))
+
+When the string is updated using one of these methods, it is checked against all existing sequences to see if the current time falls into a specific schedule and then will choose the one with the highest priority. If there are no matched sequences (including ones without a schedule), the preroll string will be left blank an no prerolls will run.
+
+:::info
+The logs should always show with a timestamp when the prerolls change.
+:::
