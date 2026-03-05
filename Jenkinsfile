@@ -18,9 +18,11 @@ pipeline {
                     def buildNum = sh(script: "curl -s https://increment.build/${BUILD_CRED} || echo 'manual'", returnStdout: true).trim()
                     echo "Build number: ${buildNum}"
 
+                    def hostWorkspace = WORKSPACE.replace('/var/jenkins_home', '${CONFIG_PATH}/jenkins')
+
                     sh """
                         docker run --rm \
-                          -v "\$(pwd)":/app \
+                          -v "${hostWorkspace}":/app \
                           -w /app \
                           -e BUILD_NUMBER=${buildNum} \
                           node:20-alpine \
