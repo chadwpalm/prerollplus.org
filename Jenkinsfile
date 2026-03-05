@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         WEBSITE_MOUNT = '/website'
-        BUILD_CRED = credentials('74d13a39-2cb5-4c34-b92c-3137e46bf881')  // fix ID if needed
+        BUILD_CRED = credentials('74d13a39-2cb5-4c34-b92c-3137e46bf881')
     }
     options {
         timeout(time: 10, unit: 'MINUTES')
