@@ -17,17 +17,20 @@ pipeline {
       when {
         branch "main"
       }
-      agent {
-        docker {
-          image 'node:20-alpine'
-          args '--user root'
-        }
-      }
+    //   agent {
+    //     docker {
+    //       image 'node:20-alpine'
+    //       args '--user root'
+    //     }
+    //   }
       steps {
-        sh 'npm ci'
         sh """
-          export BUILD_NUMBER=\$(curl -s https://increment.build/\${BUILD_CRED} || echo "manual")          
-          npm run build
+        docker run --rm \
+          -v "$(pwd)":/app \
+          -w /app \
+          -e BUILD_NUMBER=$(curl -s https://increment.build/${BUILD_CRED} || echo "manual") \
+          node:20-alpine \
+        sh -c "npm ci && npm run build"
         """
       }
     }
