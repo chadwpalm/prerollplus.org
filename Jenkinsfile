@@ -19,7 +19,7 @@ pipeline {
                     def buildNum = sh(script: 'curl -s https://increment.build/${BUILD_CRED} || echo "manual"', returnStdout: true).trim()
                     echo "Build number: ${buildNum}"
 
-                    def hostWorkspace = WORKSPACE.replace('/var/jenkins_home', '${WORK_DIR}')
+                    def hostWorkspace = WORKSPACE.replace('/var/jenkins_home', WORK_DIR)
 
                     sh """
                         docker run --rm \
@@ -38,6 +38,8 @@ pipeline {
             }
             steps {
                 sh """
+                    command -v rsync >/dev/null 2>&1 || (apt-get update && apt-get install -y rsync)
+
                     rsync -av --delete build/ ${WEBSITE_MOUNT}/
                     touch ${WEBSITE_MOUNT}/index.html
                 """
