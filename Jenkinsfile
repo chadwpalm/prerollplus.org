@@ -3,6 +3,7 @@ pipeline {
     environment {
         WEBSITE_MOUNT = '/website'
         BUILD_CRED = credentials('74d13a39-2cb5-4c34-b92c-3137e46bf881')
+        WORK_DIR = credentials('external_dir')
     }
     options {
         timeout(time: 10, unit: 'MINUTES')
@@ -18,9 +19,11 @@ pipeline {
                     def buildNum = sh(script: 'curl -s https://increment.build/${BUILD_CRED} || echo "manual"', returnStdout: true).trim()
                     echo "Build number: ${buildNum}"
 
+                    def hostWorkspace = WORKSPACE.replace('/var/jenkins_home', '${WORK_DIR}')
+
                     sh """
                         docker run --rm \
-                          -v "${WORKSPACE}":/app \
+                          -v "${hostWorkspace}":/app \
                           -w /app \
                           -e BUILD_NUMBER=${buildNum} \
                           node:20-alpine \
