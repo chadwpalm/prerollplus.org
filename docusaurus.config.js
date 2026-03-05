@@ -6,6 +6,8 @@
 
 import { themes as prismThemes } from "prism-react-renderer";
 
+const buildNumber = process.env.BUILD_NUMBER || "dev";
+
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 /** @type {import('@docusaurus/types').Config} */
@@ -160,7 +162,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Preroll Plus.</br><i>This project is not affiliated with Plex Inc.</i>`,
+        copyright: `Copyright © ${new Date().getFullYear()} Preroll Plus. Build #${buildNumber}</br><i>This project is not affiliated with Plex Inc.</i>`,
       },
     }),
 };
