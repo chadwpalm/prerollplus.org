@@ -24,14 +24,15 @@ pipeline {
     //     }
     //   }
       steps {
-        sh """
-        docker run --rm \
-          -v "$(pwd)":/app \
-          -w /app \
-          -e BUILD_NUMBER=$(curl -s https://increment.build/${BUILD_CRED} || echo "manual") \
-          node:20-alpine \
+        sh '''
+      # Run npm ci & build inside a temporary Node container
+      docker run --rm \
+        -v "$(pwd)":/app \
+        -w /app \
+        -e BUILD_NUMBER=$(curl -s https://increment.build/${BUILD_CRED} || echo "manual") \
+        node:20-alpine \
         sh -c "npm ci && npm run build"
-        """
+    '''
       }
     }
 
