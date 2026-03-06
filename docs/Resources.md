@@ -13,3 +13,4 @@ sidebar_label: Resources
 ### Prerolls Downloads
 
 - [Pre-Rolls Community Repository](https://prerolls.uk/) [UK Mirror]
+- [Pre-Rolls Community Repository](https://usa.prerolls.uk/) [U.S. East Mirror]

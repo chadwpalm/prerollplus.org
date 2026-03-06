@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        WEBSITE_MOUNT = '/website'
+        WEBSITE_MOUNT = '/website/prerollplus'
         BUILD_CRED = credentials('74d13a39-2cb5-4c34-b92c-3137e46bf881')
         WORK_DIR = credentials('external_dir')
     }
