@@ -77,6 +77,7 @@ docker run -d \
 | `-e TZ`            | Container timezone for logs (e.g., `America/Los_Angeles`).                                                                                               |
 | `-e SCHEDULE_TIME` | _Optional._ Daily pre-roll update time in `HH:MM` format. Defaults to `00:00` (midnight). Use with caution if set late in the day.                       |
 | `-e APP_PORT`      | _Optional._ Override for _internal_ container port number Preroll Plus will use. This variable will override any ports that are set in the app settings. |
+| `-e APP_BASE_URL`      | _Optional._ Override for the base URL Preroll Plus will use. This variable will override the URL set in the app settings.  |
 | `-v /config`       | Mount point for config files. Format: `<host_path>:/config`. Right side must always be `/config`.                                                        |
 | `-v /prerolls`     | Mount point for preroll media. Format: `<host_path>:/prerolls`. Right side must always be `/prerolls`.                                                   |
 | `-p`               | Port mapping. Format: `<host_port>:<container_port>`. Container port must be what is set in APP_PORT or within the app settings. Default is `4949`.      |

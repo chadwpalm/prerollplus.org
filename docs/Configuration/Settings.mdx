@@ -116,6 +116,16 @@ If you are finding that renaming, moving, or removing files in your preroll dire
 If everything is already working correctly, it is recommended to keep this setting off.
 :::
 
+### Prevent File Deletion From Buckets
+
+Setting this to "On" will prevent files from being deleted from buckets when they are deleted from the file system.
+                        
+Since the file system is continually being monitored for changes, this solves the issue of files in buckets wrongfully getting deleted if you are using an SMB share and it temporarily disconnects or fails.
+
+:::warning
+Be aware that this will leave ghost files in your buckets if you do legitimately delete a file and do not remember to remove it from any buckets they are used in. The file may end up still being used in a sequence list resulting in Plex not being unable to find the file. If this occurs, Plex will simply not play the preroll.
+:::
+
 ## Holidays
 
 ### Calendarific API Key
@@ -179,7 +189,7 @@ You will need to restart Preroll Plus for port changes to take effect.
 
 ### URL Base
 
-If you wish to change the URL base used for use with a reverse proxy, you can enter that base here.
+If you wish to change the URL base used for use with a reverse proxy, you can enter that base here. If APP_BASE_URL is used as an ENV variable, it will override this the URL used here.
 
 :::note
 Note: If using a reverse proxy (example: mydomain.com/prerollplus) you would enter '/prerollplus' for URL Base.
