@@ -38,9 +38,8 @@ pipeline {
             }
             steps {
                 sh """
-                    command -v rsync >/dev/null 2>&1 || (apt-get update && apt-get install -y rsync)
-
-                    rsync -av --delete build/ ${WEBSITE_MOUNT}/
+                    find ${WEBSITE_MOUNT} -mindepth 1 -delete
+                    cp -a build/. ${WEBSITE_MOUNT}/
                     touch ${WEBSITE_MOUNT}/index.html
                 """
             }
