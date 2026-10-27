@@ -13,3 +13,40 @@ If you hover over a sequence name it will show the list of buckets used in that 
 :::note
 The calendar is restricted to only viewing the current year and the following year.
 :::
+
+## iCal Feed
+
+Preroll Plus (v1.5.0 and later) provides an iCal feed of your sequence schedule that you can subscribe to from calendar apps such as Google Calendar, Apple Calendar, or Outlook. Each sequence appears as an all-day event, and consecutive days that use the same sequence are combined into a single multi-day event.
+
+To get the feed URL, click the **iCal Link** button at the top left of the calendar page. The dialogue that opens contains:
+
+- **Include Buckets**: Check this to add the names of the buckets in each sequence to the event description. The feed URL updates when this is toggled.
+- **iCal Feed**: The feed URL. Use the copy button to copy it to your clipboard, or the subscribe button to open it directly in your default calendar app (if your browser supports `webcal://` links).
+
+The feed URL looks like this:
+
+```
+http://<host>:<port>/<url-base>/feed/calendar/PrerollPlus.ics?apikey=<your-api-key>
+```
+
+The feed is secured with the API key found in the [Security](/docs/Configuration/Settings#security) section of the settings page. Requests without a valid key are rejected.
+
+:::warning
+The feed URL is built from the address you are using to view Preroll Plus in your browser. Calendar services that run in the cloud, such as Google Calendar, fetch the feed from their own servers, so the URL must be reachable from the internet (for example through a reverse proxy). An address like `localhost` or a local IP will only work with calendar apps running on your own network.
+:::
+
+:::caution
+Anyone with the feed URL can view your schedule. If the URL is shared by mistake, regenerate the API key in [Settings](/docs/Configuration/Settings#security). You will then need to update the feed URL in any calendar apps you have subscribed with.
+:::
+
+### Feed Date Range
+
+By default the feed contains the past 30 days and the next 183 days (about six months). You can change this by adding parameters to the end of the feed URL:
+
+| Parameter    | Description                                  | Default | Maximum |
+| ------------ | -------------------------------------------- | ------- | ------- |
+| `pastDays`   | Number of days before today to include.      | `30`    | `30`    |
+| `futureDays` | Number of days after today to include.       | `183`   | `365`   |
+| `buckets`    | Set to `true` to include bucket names.       | `false` | —       |
+
+Example: `...PrerollPlus.ics?apikey=<your-api-key>&futureDays=365`

@@ -8,6 +8,12 @@ A **Sequence** in Preroll Plus is a container that holds a list of buckets (see 
 
 Sequence cards can be visually sorted based on priority number or by sequence name. This does not affect priorities or schedules.
 
+The border color of a sequence card indicates its status:
+
+- **Blue**: The sequence currently in use.
+- **Red**: The sequence currently being edited.
+- **Orange**: The sequence currently overridden (see [Sequence Override](#sequence-override)).
+
 Sequences can be edited or deleted by clicking the pen icon or X icon in the sequence card respectively (when not currently creating or editing a sequence).
 
 ## Sequence Creation
@@ -54,7 +60,7 @@ This scheduling option allows you to schedule sequences based on the days of the
 
 This option lets you set a specific holiday to use for your sequence schedule. This supports dynamic holidays that change dates from year to year. There are two sources you can use:
 
-a. **Legacy** (Nager.Date): This is a completely free API and does not require a login or API key to use. The drawback is that it only supports public/federal holidays, so holidays like Valentine's Day or Mother's Day cannot be used.
+a. **Legacy** (Nager.Date): This is a completely free API and does not require a login or API key to use. The drawback is that it only supports public/federal holidays, so holidays like Valentine's Day or Mother's Day cannot be used. As of v1.5.0, Nager.Date calendars are also cached locally to reduce calls to the Nager servers.
 
 b. **Premier** (Calendarific): This calendar API option (introduced in v1.2.0) has a larger database of holidays to choose from (100s of holidays across over 200 countries). This API does require an account in order to obtain an API key (placed in [Settings](/docs/Configuration/Settings)). The free tier for this API allows up to 500 API calls per month. Preroll Plus caches calendars locally to reduce API calls to the website, so it is unlikely you will need to upgrade to a paid tier. See the [Holidays](/docs/Configuration/Settings#holidays) section of the settings page for more information.
 
@@ -84,4 +90,27 @@ To add a bucket to the sequence, click on a bucket to highlight it and press the
 
 :::tip
 You can add the same bucket multiple times in a sequence. Preroll Plus is programmed to not play the same preroll twice.
+:::
+
+## Sequence Override
+
+An override (introduced in v1.5.0) forces Preroll Plus to use a specific sequence regardless of schedules and priorities. This is useful for things like a movie night, a special event, or testing a new sequence without changing its schedule or priority.
+
+To create an override, click the **name** of the sequence in the middle of its sequence card. This opens the Override dialogue, where you choose how long the override lasts:
+
+- **Indefinitely**: The sequence stays active until you remove the override.
+- **Duration**: Enter a number of Days (0–365), Hours (0–23), and Minutes (0–59). The **Ends** line below the fields shows the exact date and time the override will expire. At least one of the fields must be greater than zero.
+
+Click **Save** to apply the override. The preroll string in Plex is updated immediately, and the overridden sequence card is shown with an orange border. Hover over the sequence name on that card to see when the override ends (or that it is active indefinitely).
+
+When a timed override expires, Preroll Plus automatically returns to the normal schedule and updates the preroll in Plex right away. This also works across restarts. If the override expired while the app was not running, it is cleared on the next start.
+
+To remove an override early, or to change its length, click the name of the overridden sequence again. Use **Save** to apply a new length, or **Delete** to clear the override and return to the normal schedule.
+
+:::note
+Only one sequence can be overridden at a time. Creating an override on a different sequence replaces the current override.
+:::
+
+:::tip
+The [Calendar](/docs/Reference/Calendar) and [iCal feed](/docs/Reference/Calendar#ical-feed) show the overridden sequence on each day the override fully covers, starting from today.
 :::

@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-To run Preroll Plus natively, you will need to install [Node JS](https://nodejs.org/) on to your machine. Node 20 LTS is the version this application was created to be run on and what is used in the Docker images. Using a different version could cause dependencies to to fail or force a version that is out of date causing potential security issues.
+To run Preroll Plus natively, you will need to install [Node JS](https://nodejs.org/) on to your machine. Node 22 LTS is the version this application was created to be run on and what is used in the Docker images. Using a different version could cause dependencies to to fail or force a version that is out of date causing potential security issues.
 
 :::note
 Even though Preroll Plus was designed to be ran through a Docker container, it can still be ran natively on Windows, Linux, and MacOS.
