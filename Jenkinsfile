@@ -3,7 +3,6 @@ pipeline {
     environment {
         WEBSITE_MOUNT = '/website/prerollplus'
         BUILD_CRED = credentials('74d13a39-2cb5-4c34-b92c-3137e46bf881')
-        WORK_DIR = credentials('external_dir')
     }
     options {
         timeout(time: 10, unit: 'MINUTES')
@@ -19,14 +18,14 @@ pipeline {
                     def buildNum = sh(script: 'curl -s https://increment.build/${BUILD_CRED} || echo "manual"', returnStdout: true).trim()
                     echo "Build number: ${buildNum}"
 
-                    def hostWorkspace = WORKSPACE.replace('/var/jenkins_home', WORK_DIR)
-
+                    // Jenkins runs in a container, so share its volumes with the build
+                    // container. The workspace then has the same path in both.
                     sh """
                         docker run --rm \
-                          -v "${hostWorkspace}":/app \
-                          -w /app \
+                          --volumes-from "\$(hostname)" \
+                          -w "${WORKSPACE}" \
                           -e BUILD_NUMBER=${buildNum} \
-                          node:20-alpine \
+                          node:26-alpine \
                           sh -c "npm ci && npm run build"
                     """
                 }
