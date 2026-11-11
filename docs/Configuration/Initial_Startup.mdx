@@ -26,6 +26,31 @@ When the application starts up for the first time a new settings file will be cr
 The reason for logging into your Plex account is to retrieve information about the location of your Plex server as well as obtain a unique Plex token for Preroll Plus to use while accessing your Plex Server.
 :::
 
+Click **Sign in** to open the Plex sign-in page in a pop-up. Plex will ask you to confirm that Preroll Plus may sign in (with a "Not you?" link if you need to switch Plex accounts). While waiting for Plex, the button reads **Waiting for Plex... (Cancel)**; click it to stop the sign-in attempt.
+
 :::warning Don't forget!
 After logging in with your Plex account you will automatically be routed to the [Settings](/docs/Configuration/Settings) page for initial configuration, but don't forget to configure your [Webhook](/docs/Configuration/Webhook)!
+:::
+
+## Sign-In Security
+
+The Plex sign-in is checked by the Preroll Plus server, not just the web page.
+
+- **Owner only.** Only the Plex account that set up Preroll Plus (the owner) can sign in. Other Plex accounts are refused with a message. Installs upgraded from an earlier version recognize the owner automatically from the saved sign-in.
+- **Per-browser sessions.** Each browser gets its own session that lasts 30 days and is renewed while in use. **Sign Out** (in the [Account Menu](/docs/Reference/Account)) only signs out that browser, and updating Preroll Plus doesn't sign anyone out.
+- **Everything requires sign-in.** Every page and API request needs a signed-in browser, except the Plex [Webhook](/docs/Configuration/Webhook) (Plex can't sign in) and the [iCal feed](/docs/Reference/Calendar#ical-feed) (which is protected by its API key).
+- **Plex token stays on the server.** The Plex token is never sent to the browser.
+
+Whether signing in is required at all can be changed with the [Authentication](/docs/Configuration/Settings#authentication) setting under Settings > Security (for example, to skip sign-in on your local network or when a reverse proxy already requires a login).
+
+### Changing the Owner / Locked Out
+
+If the owner's Plex account can no longer sign in, or you want a different Plex account to take over:
+
+1. Restart Preroll Plus with the environment variable `DISABLE_AUTH=true` (see [Docker](/docs/Installation/Docker#parameters)). This turns sign-in off, so you can get into Preroll Plus without signing in.
+2. Open the account menu (top right) and choose **Sign In**. (If the saved Plex sign-in no longer works, the sign-in page opens by itself.) Sign in with the Plex account you want to use, choosing "Not you?" on the Plex page if it offers a different account. While `DISABLE_AUTH` is set, any Plex account is accepted, and it becomes the new owner.
+3. Remove `DISABLE_AUTH` and restart Preroll Plus to turn sign-in back on.
+
+:::warning
+While `DISABLE_AUTH` is set, anyone who can reach Preroll Plus can use it without signing in. Don't leave it set.
 :::

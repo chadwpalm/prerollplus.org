@@ -17,16 +17,22 @@ Docker images for Preroll Plus can be found at: [chadwpalm/prerollplus](https://
 
 ### Tags
 
-| Tags            | Description                                                 |
-| --------------- | ----------------------------------------------------------- |
-| latest          | The latest stable release                                   |
-| #.#.#.#         | Stable releases by version number                           |
-| latest-arm      | The latest stable release for ARM v7 (Raspberry Pi)         |
-| #.#.#.#-arm     | Stable releases by version number for ARM v7 (Raspberry Pi) |
-| develop         | The latest development release                              |
-| develop-#.#.#.# | Development release by version number                       |
+| Tags            | Description                           |
+| --------------- | ------------------------------------- |
+| latest          | The latest stable release             |
+| #.#.#.#         | Stable releases by version number     |
+| develop         | The latest development release        |
+| develop-#.#.#.# | Development release by version number |
 
 The `latest` tag will always be the latest stable release. You can also run images that are of a particular version number. These will simply show the version number. The `develop` tag will be the latest development release. Development releases will have newer features to be tested, but are not guaranteed to be stable. Earlier development releases can be also be used and they contain a version number preceded by the word `develop`.
+
+### Architectures
+
+Every tag is multi-architecture and runs on both **amd64** (64-bit Intel/AMD) and **arm64** (64-bit ARM, such as a Raspberry Pi running a 64-bit OS). Docker pulls the right one for your machine automatically.
+
+:::note
+There are no separate `-arm` tags. If you used one, switch to `latest` (or `develop`). 32-bit ARM (arm/v7) is not supported.
+:::
 
 ### Usage
 
@@ -35,7 +41,7 @@ The `latest` tag will always be the latest stable release. You can also run imag
 ```
 docker run -d \
   --name=prerollplus \
-  --network host
+  --network host \
   -e PUID=1000 \
   -e PGID=1000 \
   -e TZ=America/Los_Angeles \
@@ -77,13 +83,27 @@ docker run -d \
 | `-e TZ`            | Container timezone for logs (e.g., `America/Los_Angeles`).                                                                                               |
 | `-e SCHEDULE_TIME` | _Optional._ Daily pre-roll update time in `HH:MM` format. Defaults to `00:00` (midnight). Use with caution if set late in the day.                       |
 | `-e APP_PORT`      | _Optional._ Override for _internal_ container port number Preroll Plus will use. This variable will override any ports that are set in the app settings. |
-| `-e APP_BASE_URL`      | _Optional._ Override for the base URL Preroll Plus will use. This variable will override the URL set in the app settings.  |
+| `-e PORT`          | _Optional._ Alternative to `APP_PORT`. If both are set, `APP_PORT` is used.                                                                              |
+| `-e APP_BASE_URL`  | _Optional._ Override for the base URL Preroll Plus will use. This variable will override the URL set in the app settings.                                |
+| `-e DISABLE_AUTH`  | _Optional._ Set to `true` to turn off sign-in and let a different Plex account become the owner. For recovery only; see [Sign-In Security](/docs/Configuration/Initial_Startup#changing-the-owner--locked-out). |
 | `-v /config`       | Mount point for config files. Format: `<host_path>:/config`. Right side must always be `/config`.                                                        |
 | `-v /prerolls`     | Mount point for preroll media. Format: `<host_path>:/prerolls`. Right side must always be `/prerolls`.                                                   |
 | `-p`               | Port mapping. Format: `<host_port>:<container_port>`. Container port must be what is set in APP_PORT or within the app settings. Default is `4949`.      |
 | `--restart`        | Docker restart behavior (e.g., `unless-stopped`). See [Docker docs](https://docs.docker.com/engine/reference/commandline/run/#restart).                  |
 
 Note: Even though the config file is typically not accessed by any other software (though this does not discourage anyone who wants to write one), setting the `PUID` and `GUID` variables to match the host's user and group can help resolve any permission issues.
+
+:::note
+The `/config` path inside the container can be changed with the `CONFIG_DIR` environment variable, but there is no reason to in Docker. Leave it unset and mount your config folder to `/config`.
+:::
+
+### Image Details
+
+The image is based on Node 26 on Alpine Linux. npm is removed from the final image since it isn't needed to run Preroll Plus.
+
+### Health Check
+
+The image includes a Docker health check. Once Preroll Plus answers on its port (and URL base), `docker ps` shows the container as `healthy`. If it stops responding, the container is shown as `unhealthy`.
 
 #### docker compose
 

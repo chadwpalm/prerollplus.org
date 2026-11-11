@@ -159,7 +159,7 @@ If you do not wish to use Calendarific as your holiday calendar source, there is
 
 #### Calendar Cache
 
-Holiday calendars are cached in the `/config/cache` directory:
+Holiday calendars are cached in the `cache` folder inside the config directory (`/config/cache` by default, see [`CONFIG_DIR`](/docs/Installation/Docker#parameters)):
 
 - **Calendarific** files are named `[Country-Code]-calendarific-[Type]-[Year]`. "Type" is the type of calendar used, being either National, Local, Religious, or Observance. These are chosen when creating [Sequences](/docs/Configuration/Sequences).
 - **Nager.Date** files (cached as of v1.5.0) are named `[Country-Code]-nager-[Year]`.
@@ -168,7 +168,7 @@ Since the year is part of the file name, a new calendar is automatically pulled 
 
 ### Clear Calendar Cache (Advanced)
 
-Clicking this will delete all cached calendar files from the `/config/cache` directory. The next time calendar data is needed, Preroll Plus will pull it from the calendar source again and re-cache it. The only time you would need to do this is if your cache has been corrupted or you feel the cache is out of date.
+Clicking this will delete all cached calendar files from the cache directory. The next time calendar data is needed, Preroll Plus will pull it from the calendar source again and re-cache it. The only time you would need to do this is if your cache has been corrupted or you feel the cache is out of date.
 
 ### Calendar Day of Week Start
 
@@ -176,36 +176,64 @@ Choose which day of the week you wish the [Calendar](/docs/Reference/Calendar) t
 
 ## Host
 
-### Port Number
-
-Set the port number you wish Preroll Plus to use. The default is `4949`. If left blank it will also default to `4949`.
-
-:::note
-If running in a Docker container this will be the port as seen <i>inside</i> the container. If APP_PORT is used as an ENV variable, it will override this port setting. The order of Preroll Plus choosing the port is:
-
-1. ENV variable. If using Docker this will be added at container creation (See [Docker](/docs/Installation/Docker) page).
-2. If no ENV variable it will use this setting configured here in the settings page.
-3. If no ENV variable and this setting is left blank it will default to port `4949`.
-
-:::
+The top of the Host section shows the port and URL base Preroll Plus is currently running on (e.g. "Currently running on port **4949** at **/**"). Both fields are validated before saving.
 
 :::warning Important
-You will need to restart Preroll Plus for port changes to take effect.
+You will need to restart Preroll Plus for port or URL base changes to take effect. After saving a change, a reminder to restart appears at the bottom of the page. After restarting, open Preroll Plus at the new port/URL base.
+:::
+
+### Port Number
+
+Set the port number you wish Preroll Plus to use (1–65535). The default is `4949`. If left blank it will also default to `4949`.
+
+:::note
+If running in a Docker container this will be the port as seen <i>inside</i> the container. The order of Preroll Plus choosing the port is:
+
+1. The `APP_PORT` environment variable.
+2. The `PORT` environment variable.
+3. This setting configured here in the settings page.
+4. If none of the above are set, port `4949`.
+
+If `APP_PORT` or `PORT` is set, this field is grayed out with a note naming the environment variable, and the setting is ignored. (See the [Docker](/docs/Installation/Docker#parameters) page.)
 :::
 
 ### URL Base
 
-If you wish to change the URL base for use with a reverse proxy, you can enter that base here. The default is empty. If APP_BASE_URL is used as an ENV variable, it will override the URL Base set here.
+If you wish to change the URL base for use with a reverse proxy, you can enter that base here. The default is empty (the root, `/`). Leading and trailing slashes are optional, and only URL-safe path characters are allowed.
 
 :::note
 If using a reverse proxy (example: mydomain.com/prerollplus) you would enter `/prerollplus` for URL Base.
 :::
 
-:::warning Important
-You will need to restart Preroll Plus for URL Base changes to take effect.
+:::note
+If the `APP_BASE_URL` environment variable is set, this field is grayed out with a note and the setting is ignored.
 :::
 
 ## Security
+
+### Authentication
+
+This setting controls who has to sign in with Plex to use Preroll Plus. Only the Plex account that set up Preroll Plus (the owner) can sign in. See [Sign-In Security](/docs/Configuration/Initial_Startup#sign-in-security) for details.
+
+| Option                               | Description                                                                                                                                                                       |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Required** (default)               | Every browser must sign in.                                                                                                                                                       |
+| **Not required for local addresses** | Browsers on your local network (private addresses such as `192.168.x.x`, `10.x.x.x`, or `localhost`) are let in without signing in. Browsers from anywhere else must sign in. |
+| **Off**                              | No sign-in. Anyone who can reach Preroll Plus can use it and change its settings.                                                                                                 |
+
+Changes apply as soon as you click **Save**; no restart is needed.
+
+:::warning
+Only use **Off** if something else, such as your reverse proxy, already requires a login.
+:::
+
+:::note Reverse proxies
+When Preroll Plus is behind a reverse proxy on your local network, the visitor's address is taken from the `X-Forwarded-For` header the proxy sends. If you use **Not required for local addresses**, make sure your proxy sends this header, otherwise every visitor will look like they are on your local network.
+:::
+
+:::note
+If the `DISABLE_AUTH` environment variable is set, this field shows **Off** and is grayed out with a note, and the setting is ignored. (See [Docker](/docs/Installation/Docker#parameters).)
+:::
 
 ### API Key
 
@@ -238,4 +266,8 @@ Maximum log file size in MB before archiving and starting a new file. Default is
 
 ### Max Files
 
-Maximum number of log files to keep in rotation. Default is `5`.
+Maximum number of log files to keep in rotation (1–60). Default is `5`.
+
+:::note
+Log files are kept in the `logs` folder inside the config directory (`/config/logs` by default). Info level shows what Preroll Plus is doing, and Debug adds why. Secrets such as the Plex token are masked in the logs.
+:::

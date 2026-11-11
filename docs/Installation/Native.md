@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-To run Preroll Plus natively, you will need to install [Node JS](https://nodejs.org/) on to your machine. Node 22 LTS is the version this application was created to be run on and what is used in the Docker images. Using a different version could cause dependencies to to fail or force a version that is out of date causing potential security issues.
+To run Preroll Plus natively, you will need to install [Node JS](https://nodejs.org/) on to your machine. Node 26 is the version this application is built and tested on and what is used in the Docker images. Using a different version could cause dependencies to to fail or force a version that is out of date causing potential security issues.
 
 :::note
 Even though Preroll Plus was designed to be ran through a Docker container, it can still be ran natively on Windows, Linux, and MacOS.
@@ -83,9 +83,28 @@ If you want to use the environment variables found in the [Docker](/docs/Install
 
 ```
 SCHEDULE_TIME=01:30 APP_PORT=1234 npm start
+```
 :::
 
-Preroll Plus stores its settings file in the /config of your system. This may cause permission issues when starting up the application for the first time. Preroll Plus will first attempt to create the /config directory and then create the settings initial file in that directory. The application may not be able to create the folder if it is ran by a non-root account. You may need to create the directory manually first before starting the application for the first time. Preroll Plus will take in PUID and PGID environment variables on start up and set the settings file to those IDs. If you don't supply IDs, Preroll Plus will set the settings file to the same account IDs that the application is ran from.
+## Config Directory
+
+By default Preroll Plus stores its settings file, logs, and holiday cache in `/config` on your system. This may cause permission issues when starting up the application for the first time. Preroll Plus will first attempt to create the /config directory and then create the settings initial file in that directory. The application may not be able to create the folder if it is ran by a non-root account. You may need to create the directory manually first before starting the application for the first time. Preroll Plus will take in PUID and PGID environment variables on start up and set the settings file to those IDs. If you don't supply IDs, Preroll Plus will set the settings file to the same account IDs that the application is ran from.
+
+You can use the `CONFIG_DIR` environment variable to keep these files in a different folder, which avoids needing a root-level `/config` folder. A relative path is resolved from the folder Preroll Plus is started in.
+
+Linux / MacOS:
+
+```bash
+CONFIG_DIR=/home/me/prerollplus-config npm start
+```
+
+Windows PowerShell:
+
+```powershell
+$env:CONFIG_DIR="C:\PrerollPlus-config"; npm start
+```
+
+The [About](/docs/Reference/Account#about) dialog shows the config folder in use.
 
 ## Run as Background Process
 

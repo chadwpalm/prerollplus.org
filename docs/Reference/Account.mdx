@@ -35,12 +35,12 @@ If running a Docker container this is the Docker build number to help distinguis
 This is the location of the Preroll Plus config directory. On initial startup Preroll Plus will create this directory and place all settings, logs, and cache files there. When running a Docker container, this is the directory within the container Preroll Plus looks for the config files, so you will need to mount your config directory accordingly (see [Docker](/docs/Installation/Docker) setup).
 
 :::note
-This is a hardcoded location and cannot be changed.
+The default is `/config`. It can be changed with the `CONFIG_DIR` environment variable (mainly useful for native installs, see [Native](/docs/Installation/Native)). The About dialog shows the actual folder in use.
 :::
 
 #### App Dir
 
-This is the directory that Preroll Plus was started in. For Docker it will alway say `/app`.
+This is the folder Preroll Plus is installed in. For Docker it will always say `/app`.
 
 #### Docker
 
@@ -49,3 +49,7 @@ Link to the Docker Hub repository Preroll Plus can be pulled from.
 #### Source
 
 Link to the Preroll Plus source code.
+
+### Sign Out
+
+Signs this browser out of Preroll Plus. Each browser has its own session, so signing out does not affect other browsers. This option is only shown when you are signed in (it is hidden when the [Authentication](/docs/Configuration/Settings#authentication) setting lets you in without signing in).
